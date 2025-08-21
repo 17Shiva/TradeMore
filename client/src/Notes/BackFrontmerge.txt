@@ -1,0 +1,105 @@
+🧠 OVERVIEW: System Components
+scss
+Copy
+Edit
+SELLER (React) → BACKEND (Node/Express) → DATABASE (MongoDB)
+                      ↓
+                 BUYER (React)
+📊 FLOWCHART 1: Seller Product Upload
+plaintext
+Copy
+Edit
+[Seller fills form] 
+      ↓
+[React state updated with title, desc, price, image]
+      ↓
+[Click "Upload" Button]
+      ↓
+[axios.post('/api/products/upload', payload)]
+      ↓
+→ [Express Backend Receives POST Request]
+      ↓
+→ [Validates data]
+      ↓
+→ [Creates MongoDB document with Product.create()]
+      ↓
+→ [Stores in MongoDB 'products' collection]
+      ↓
+← [Sends 201 response: "Product uploaded"]
+      ↓
+[Seller sees alert: "Product uploaded!"]
+📊 FLOWCHART 2: Buyer Viewing Products
+plaintext
+Copy
+Edit
+[BuyerDashboard mounts] → (useEffect runs once)
+      ↓
+[axios.get('/api/products/all')]
+      ↓
+→ [Express handles GET /api/products/all]
+      ↓
+→ [Fetches all products from MongoDB]
+      ↓
+← [Returns array of product objects]
+      ↓
+[Frontend sets state: setProducts(data)]
+      ↓
+[UI maps over products and displays cards]
+🔗 COMPONENT CONNECTIONS
+pgsql
+Copy
+Edit
+SellerDashboard.js
+    ↳ axios.post → /api/products/upload
+    ↳ backend saves to MongoDB
+
+BuyerDashboard.js
+    ↳ axios.get → /api/products/all
+    ↳ backend reads from MongoDB
+🧱 BACKEND ROUTES IN FLOW
+plaintext
+Copy
+Edit
+POST /api/products/upload
+    → Handles product creation
+    → Saves to DB
+
+GET /api/products/all
+    → Fetches all products
+    → Sends to buyer UI
+💾 MongoDB (Behind the Scenes)
+plaintext
+Copy
+Edit
+Database: trademore (example)
+Collection: products
+
+Each document:
+{
+  "_id": "...",
+  "title": "...",
+  "description": "...",
+  "price": 499,
+  "image": "...",
+  "sellerId": "SELLER123"
+}
+🔁 LIVE FLOW SUMMARY
+plaintext
+Copy
+Edit
+SELLER ➜ submits product
+        ↳ goes to backend → stored in MongoDB
+
+BUYER ➜ dashboard loads
+        ↳ requests all products → renders cards
+🧩 Want to Extend?
+Here’s how other features plug in:
+
+🖼️ Image file upload → Add Multer in backend, upload files instead of URLs
+
+🔐 Login system → Add JWT auth, sessions
+
+🛒 Cart system → Add local state or backend cart model
+
+📈 Seller stats → Fetch products by sellerId
+

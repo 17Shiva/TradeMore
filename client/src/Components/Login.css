@@ -1,0 +1,175 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.login-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 40px 30px;
+  width: 350px;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideIn 0.6s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translacd teY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-icon {
+  font-size: 60px;
+  display: block;
+  margin: 0 auto 10px;
+  color: #fff;
+}
+
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  color: #333;
+}
+
+.input-group label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0 4px;
+  color: #555;
+}
+
+.password-group {
+  position: relative;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #7d6cfb;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #6a59e3;
+}
+
+.social-login {
+  text-align: center;
+  margin: 1.5rem 0 1rem;
+}
+
+.social-login p {
+  font-size: 14px;
+  color: #eee;
+}
+
+.social-icons {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-icons .google,
+.social-icons .facebook {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.social-icons .google:hover {
+  color: #db4437;
+  transform: scale(1.1);
+}
+
+.social-icons .facebook:hover {
+  color: #1877f2;
+  transform: scale(1.1);
+}
+
+.register-link {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #eee;
+}
+
+.register-link a {
+  color: #ffeb3b;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+} */
+.login-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 5%;
+  background-image: url('../assests/images/LoginBG.jpg');
+  background-size: cover;
+  background-position: center;
+}
