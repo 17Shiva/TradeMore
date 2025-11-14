@@ -1,6 +1,7 @@
 // src/components/Home.js
 
 import './Home.css'; // Import CSS file
+import NewsSection from "./NewsSection"; 
 import AboutUs from './about';
 import bg from '../assests/images/TradeMoreBG.png'; // fix spelling & add extension
 const Home = () => {
@@ -59,6 +60,9 @@ const Home = () => {
     ))}
   </div>
 </section>
+    <div>
+       <NewsSection />
+    </div>
     <div>
       <AboutUs />
     </div>
