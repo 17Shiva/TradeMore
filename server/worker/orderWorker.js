@@ -5,7 +5,7 @@ import Product from "../models/Product.js";
 import Redis from "ioredis";
 
 console.log("🟢 Worker Started...");
-
+// Redis saieshh
 // Redis Publisher
 const pub = new Redis(process.env.REDIS_URL || "redis://127.0.0.1:6379");
 
