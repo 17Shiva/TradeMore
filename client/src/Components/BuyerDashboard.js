@@ -104,10 +104,10 @@ const BuyerDashboard = () => {
     <div className="product-grid">
       {products.map(p => (
         <div className="product-card" key={p._id}>
-          <img
-            src={`http://localhost:5000/api/products/images/${p.image}`}
-            alt={p.title}
-          />
+<img 
+  src={`http://localhost:5000/images/${p.image}`}
+  alt={p.title}
+/>
           <h3>{p.title}</h3>
           <p>{p.description}</p>
           <p><strong>₹{p.price}</strong></p>

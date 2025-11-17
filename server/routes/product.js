@@ -47,12 +47,13 @@ import express from "express";
 import multer from "multer";
 import Product from "../models/Product.js";
 
+
 const router = express.Router();
 
 // MULTER STORAGE
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/products/");
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);

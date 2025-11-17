@@ -148,13 +148,15 @@ import authRoutes from "./routes/authRoutes.js";
 import todoRoutes from "./routes/todoRoutes.js";
 import productRoutes from "./routes/product.js";
 import trackingRoutes from "./routes/trackingRoutes.js";
-
+import sellerOrderRoutes from "./routes/sellerOrderRoutes.js";
 dotenv.config();
 connectDB();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/images", express.static("uploads"));
+app.use("/api/seller", sellerOrderRoutes);
 
 // Create HTTP server (IMPORTANT)
 const server = http.createServer(app);

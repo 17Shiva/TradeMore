@@ -150,7 +150,8 @@ import Login from "./Components/Login";
 import Register from "./Components/Register";
 import DashboardRouter from "./Components/DashboardRouter";
 import TrackOrder from "./Components/TrackOrder";
-import NewsSection from "./Components/NewsSection";
+// import NewsSection from "./Components/NewsSection";
+import SellerOrders from "./Components/sellerOrders";
 
 function App() {
   const [userRole, setUserRole] = useState(localStorage.getItem("role") || "");
@@ -193,7 +194,7 @@ useEffect(() => {
           path="/dashboard"
           element={<DashboardRouter userRole={userRole} />}
         />
-
+      <Route path="/sellerOrders" element={<SellerOrders />} />
         {/* 404 fallback */}
         <Route
           path="*"
@@ -203,6 +204,7 @@ useEffect(() => {
             </h2>
           }
         />
+       
       </Routes>
 
       <Footer />
