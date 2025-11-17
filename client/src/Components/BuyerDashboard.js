@@ -92,7 +92,7 @@ const BuyerDashboard = () => {
       );
 
       alert("✅ Order placed successfully!");
-      navigate(`/track?id=${res.data.orderId}`);
+      // navigate(`/track?id=${res.data.orderId}`);
 
     } catch (err) {
       console.error(err.response?.data || err);

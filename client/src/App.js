@@ -183,7 +183,7 @@ useEffect(() => {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/track" element={<TrackOrder />} />
+      
 
         {/* Auth Routes */}
         <Route path="/login" element={<Login setUserRole={setUserRole} />} />
