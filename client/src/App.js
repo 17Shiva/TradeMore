@@ -152,7 +152,7 @@ import DashboardRouter from "./Components/DashboardRouter";
 import TrackOrder from "./Components/TrackOrder";
 // import NewsSection from "./Components/NewsSection";
 import SellerOrders from "./Components/sellerOrders";
-
+// updated client folder
 function App() {
   const [userRole, setUserRole] = useState(localStorage.getItem("role") || "");
 
