@@ -1,8 +1,8 @@
-/* FULL PAGE CENTERING */
-.login-wrapper {
+/* FULL PAGE CENTER */
+.reg-wrapper {
   height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  background: linear-gradient(135deg, #43cea2, #185a9d);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,47 +10,54 @@
 }
 
 /* CARD (Glassmorphism) */
-.login-card {
-  width: 380px;
+.reg-card {
+  width: 400px;
   padding: 2.5rem;
-  border-radius: 20px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
+  color: #fff;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   text-align: center;
-  color: #fff;
 }
 
 /* TITLE */
 .title {
-  font-size: 2rem;
   margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
 }
 
 /* ERROR MESSAGE */
 .error {
-  color: #ff6b6b;
-  background: rgba(255, 0, 0, 0.1);
-  padding: 0.6rem;
+  background: rgba(255, 0, 0, 0.2);
+  padding: 0.7rem;
   border-radius: 8px;
+  color: #ff6b6b;
   margin-bottom: 1rem;
 }
 
-/* INPUT GROUP */
+/* FORM */
+.reg-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* INPUT WRAPPER */
 .input-group {
   position: relative;
-  margin: 1.5rem 0;
+  margin: 1.4rem 0;
 }
 
 .input-group input {
   width: 100%;
-  padding: 0.9rem 0.8rem;
+  padding: 0.9rem 0.7rem;
   background: transparent;
   border: none;
   border-bottom: 2px solid #ddd;
-  color: #fff;
   outline: none;
   font-size: 1rem;
+  color: #fff;
   transition: 0.3s;
 }
 
@@ -60,49 +67,75 @@
 
 .input-group label {
   position: absolute;
-  left: 0.8rem;
+  left: 0.7rem;
   top: 0.9rem;
-  transition: 0.3s;
-  pointer-events: none;
+  font-size: 1rem;
   color: #ccc;
+  pointer-events: none;
+  transition: 0.3s;
 }
 
-/* FLOATING LABEL EFFECT */
+/* Floating label */
 .input-group input:focus + label,
 .input-group input:not(:placeholder-shown) + label,
 .input-group input:not(:focus):valid + label {
   top: -10px;
   left: 0;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #fff;
 }
 
+/* SELECT DROPDOWN */
+.select-group {
+  text-align: left;
+  margin: 1rem 0 2rem 0;
+}
+
+.select-label {
+  font-size: 0.9rem;
+  color: #eee;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+select {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  cursor: pointer;
+}
+
 /* BUTTON */
-.login-btn {
+.reg-btn {
   width: 100%;
   padding: 0.9rem;
   background: #fff;
-  color: #4e54c8;
   border: none;
-  font-size: 1.1rem;
+  color: #185a9d;
   border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
-  font-weight: bold;
 }
 
-.login-btn:hover {
+.reg-btn:hover {
   background: #f0f0f0;
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
-/* REGISTER LINK */
-.register-text {
-  margin-top: 1.3rem;
-  font-size: 0.9rem;
+/* LOGIN LINK */
+.login-text {
+  margin-top: 1rem;
 }
 
-.register-text a {
+.login-text a {
   color: #fff;
   font-weight: bold;
   text-decoration: underline;
