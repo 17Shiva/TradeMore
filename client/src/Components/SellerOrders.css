@@ -1,0 +1,77 @@
+.seller-orders {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.seller-orders h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.order-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 6px 16px rgba(0,0,0,0.12);
+}
+
+.order-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.order-card p {
+  font-size: 15px;
+  margin: 4px 0;
+  color: #444;
+}
+
+.order-card button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+/* STATUS BUTTONS */
+.order-card button:nth-child(1) {
+  background: #ffcc00;
+  color: #000;
+}
+
+.order-card button:nth-child(2) {
+  background: #4285f4;
+  color: white;
+}
+
+.order-card button:nth-child(3) {
+  background: #34a853;
+  color: white;
+}
+
+.order-card button:hover {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+/* Empty screen */
+.seller-orders h2 {
+  text-align: center;
+  margin-top: 40px;
+  color: #555;
+}

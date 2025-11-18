@@ -36,19 +36,33 @@ router.post("/place", protect, async (req, res) => {
   }
 });
 
-// 2️⃣ BUYER GETS ORDER DETAILS
+// 2️⃣ BUYER GETS SPECIFIC ORDER DETAILS
 router.get("/buyer/:id", protect, async (req, res) => {
   const order = await Order.findById(req.params.id);
   res.json(order);
 });
 
-// 3️⃣ SELLER GETS ALL ORDERS FOR THEIR PRODUCTS
+// 3️⃣ BUYER GETS ALL THEIR ORDERS (my-orders)
+router.get("/my-orders", protect, async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+
+    res.json(orders);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Server error");
+  }
+});
+
+// 4️⃣ SELLER GETS ALL ORDERS FOR THEIR PRODUCTS
 router.get("/seller/:sellerId", async (req, res) => {
   const orders = await Order.find({ seller: req.params.sellerId });
   res.json(orders);
 });
 
-// 4️⃣ SELLER UPDATES ORDER STATUS
+// 5️⃣ SELLER UPDATES ORDER STATUS
 router.put("/update-status/:id", async (req, res) => {
   const { status, message } = req.body;
 
