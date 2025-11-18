@@ -187,7 +187,7 @@ function Navbar() {
 
       <div className="pages">
         <Link to="/">Home</Link>
-        <Link to="/track">Track</Link>
+         
 
         {/* ============ ROLE-BASED LINKS ============ */}
         
@@ -200,7 +200,7 @@ function Navbar() {
         {role === "seller" && (
           <>
             <Link to="/dashboard">Seller Dashboard</Link>
-            <Link to="/seller-orders">Orders</Link>  {/* ⭐ Added now */}
+            
           </>
         )}
 

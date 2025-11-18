@@ -81,7 +81,7 @@ const BuyerDashboard = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:5000/api/track/place",
+        "http://localhost:5000/api/orders/place",
         {
           productId,
           quantity: 1
@@ -92,12 +92,14 @@ const BuyerDashboard = () => {
       );
 
       alert("✅ Order placed successfully!");
-      navigate(`/track?id=${res.data.orderId}`);
+      // navigate(`/track?id=${res.data.orderId}`);
 
-    } catch (err) {
-      console.error(err.response?.data || err);
-      alert("❌ Failed to place order");
-    }
+    }  catch (err) {
+  console.error("SERVER ERROR:", err.response?.data || err);
+  alert("Failed to place order");
+}
+
+    
   };
 
   return (
