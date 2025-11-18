@@ -1,50 +1,48 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import "./SellerOrders.css";
 const SellerOrders = () => {
   const [orders, setOrders] = useState([]);
-
-  const user = JSON.parse(localStorage.getItem("user"));
-  const sellerId = user?._id;
+  const seller = JSON.parse(localStorage.getItem("user"));
+  const sellerId = seller?._id;
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/seller/${sellerId}/orders`)
-      .then((res) => setOrders(res.data))
-      .catch((err) => console.error("Error loading seller orders:", err));
+      .get(`http://localhost:5000/api/orders/seller/${sellerId}`)
+      .then(res => setOrders(res.data));
   }, []);
+
+  const updateStatus = async (id, status) => {
+    await axios.put(`http://localhost:5000/api/orders/update-status/${id}`, {
+      status,
+      message: `${status} by seller`
+    });
+
+    alert("Status Updated");
+    window.location.reload();
+  };
+
+  if (!orders.length) return <h2>No Orders Yet</h2>;
 
   return (
     <div className="seller-orders">
-      <h2>📦 Orders Received</h2>
+      <h2>Customer Orders</h2>
 
-      {orders.length === 0 && <p>No orders yet.</p>}
-
-      {orders.map((order) => (
+      {orders.map(order => (
         <div className="order-card" key={order._id}>
-          <h3>Order ID: {order._id.slice(-6)}</h3>
+          <h3>{order.items[0].name}</h3>
+          <p>Buyer ID: {order.user}</p>
+          <p>Status: {order.status}</p>
 
-          <p><b>Buyer:</b> {order.user?.name}</p>
-          <p><b>Status:</b> {order.status}</p>
-
-          {order.items.map((item) => (
-            <div key={item.productId} className="order-item">
-              <img
-                src={`http://localhost:5000/images/${item.image}`}
-                alt={item.name}
-                width="80"
-              />
-              <div>
-                <p><b>{item.name}</b></p>
-                <p>Qty: {item.qty}</p>
-                <p>Price: ₹{item.price}</p>
-              </div>
-            </div>
-          ))}
-
-          <p><b>Total Price:</b> ₹{order.totalPrice}</p>
-
-          <hr />
+          <button onClick={() => updateStatus(order._id, "Processing")}>
+            Processing
+          </button>
+          <button onClick={() => updateStatus(order._id, "Shipped")}>
+            Shipped
+          </button>
+          <button onClick={() => updateStatus(order._id, "Delivered")}>
+            Delivered
+          </button>
         </div>
       ))}
     </div>
@@ -52,3 +50,5 @@ const SellerOrders = () => {
 };
 
 export default SellerOrders;
+
+
