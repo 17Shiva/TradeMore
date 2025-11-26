@@ -3,6 +3,8 @@ import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 import { protect } from "../middleware/auth.js";
 
+import Redis from "ioredis";
+const pub = new Redis("redis://127.0.0.1:6379");
 const router = express.Router();
 
 // 1️⃣ BUYER PLACES ORDER
@@ -29,12 +31,21 @@ router.post("/place", protect, async (req, res) => {
       tracking: [{ status: "Order Placed", message: "Order created" }]
     });
 
-    res.json({ orderId: order._id });
+    res.json({
+      order: {
+        _id: order._id,
+        sellerId: order.seller,
+        userId: order.user,
+        status: "Order Placed"
+      }
+    });
+
   } catch (err) {
     console.log(err);
     res.status(500).send("Server error");
   }
 });
+
 
 // 2️⃣ BUYER GETS SPECIFIC ORDER DETAILS
 router.get("/buyer/:id", protect, async (req, res) => {
@@ -64,16 +75,33 @@ router.get("/seller/:sellerId", async (req, res) => {
 
 // 5️⃣ SELLER UPDATES ORDER STATUS
 router.put("/update-status/:id", async (req, res) => {
-  const { status, message } = req.body;
+  try {
+    const { status, message } = req.body;
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ msg: "Order not found" });
 
-  const order = await Order.findById(req.params.id);
+    order.status = status;
+    order.tracking.push({ status, message });
+    await order.save();
 
-  order.status = status;
-  order.tracking.push({ status, message });
+    // Publish minimal payload (orderId + status + sellerId + userId)
+    await pub.publish(
+      "order_updates",
+      JSON.stringify({
+        orderId: order._id.toString(),
+        status: order.status,
+        sellerId: order.seller?.toString(),
+        userId: order.user?.toString(),
+      })
+    );
 
-  await order.save();
-
-  res.json({ msg: "Status updated" });
+    res.json({ msg: "Status updated" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
 });
+
+
 
 export default router;
