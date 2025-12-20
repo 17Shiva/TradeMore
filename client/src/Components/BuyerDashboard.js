@@ -149,9 +149,14 @@ const BuyerDashboard = () => {
     const s = io("http://localhost:5000");
     setSocket(s);
 
-    return () => {
+    // return () => {
+    //   s.disconnect();
+    // };
+  return () => {
+    if (s && typeof s.disconnect === "function") {
       s.disconnect();
-    };
+    }
+  };
   }, []);
 
   // Fetch products
