@@ -111,6 +111,108 @@
 
 // export default SellerOrders;
 
+//// down correct code 
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import { io } from "socket.io-client";
+// import "./SellerOrders.css";
+
+// const SellerOrders = () => {
+//   const [orders, setOrders] = useState([]);
+//   const [socket, setSocket] = useState(null);
+//   const seller = JSON.parse(localStorage.getItem("user"));
+//   const sellerId = seller?._id;
+
+//   // 1) Create single socket instance
+//   useEffect(() => {
+//     const s = io("http://localhost:5000");
+//     setSocket(s);
+//     return () => s.disconnect();
+//   }, []);
+
+//   // 2) Fetch initial orders
+//   useEffect(() => {
+//     if (!sellerId) return;
+
+//     axios
+//       .get(`http://localhost:5000/api/orders/seller/${sellerId}`)
+//       .then((res) => setOrders([...res.data].reverse()))
+//       .catch((err) => console.error(err));
+//   }, [sellerId]);
+
+//   // 3) Live updates
+//   useEffect(() => {
+//     if (!socket || !sellerId) return;
+
+//     socket.emit("join", `seller_${sellerId}`);
+
+//     const onOrderUpdate = (data) => {
+//       setOrders((prev) => {
+//         const exists = prev.some(
+//           (o) => o._id.toString() === data.orderId.toString()
+//         );
+
+//         if (exists) {
+//           return prev.map((order) =>
+//             order._id.toString() === data.orderId.toString()
+//               ? { ...order, status: data.status }
+//               : order
+//           );
+//         }
+
+//         return [
+//           {
+//             _id: data.orderId,
+//             status: data.status,
+//             user: data.userId,
+//             items: [],
+//           },
+//           ...prev,
+//         ];
+//       });
+//     };
+
+//     socket.on("order:update", onOrderUpdate);
+//     return () => socket.off("order:update", onOrderUpdate);
+//   }, [socket, sellerId]);
+
+//   // 4) Seller updates status
+//   const updateStatus = async (id, status) => {
+//     await axios.put(
+//       `http://localhost:5000/api/orders/update-status/${id}`,
+//       { status }
+//     );
+//   };
+
+//   if (!orders.length) return <h2>No Orders Yet</h2>;
+
+//   return (
+//     <div className="seller-orders">
+//       <h2>Customer Orders</h2>
+
+//       {orders.map((order) => (
+//         <div className="order-card" key={order._id}>
+//           <h3>{order.items?.[0]?.name || "Item"}</h3>
+//           <p>Buyer ID: {order.user}</p>
+//           <p>Status: {order.status}</p>
+
+//           <button onClick={() => updateStatus(order._id, "Processing")}>
+//             Processing
+//           </button>
+//           <button onClick={() => updateStatus(order._id, "Shipped")}>
+//             Shipped
+//           </button>
+//           <button onClick={() => updateStatus(order._id, "Delivered")}>
+//             Delivered
+//           </button>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default SellerOrders;
+
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -120,63 +222,52 @@ import "./SellerOrders.css";
 const SellerOrders = () => {
   const [orders, setOrders] = useState([]);
   const [socket, setSocket] = useState(null);
+
   const seller = JSON.parse(localStorage.getItem("user"));
   const sellerId = seller?._id;
 
-  // 1) Create single socket instance
+  // 🔹 Fetch orders function (used in multiple places)
+  const fetchOrders = async () => {
+    if (!sellerId) return;
+    try {
+      const res = await axios.get(
+        `http://localhost:5000/api/orders/seller/${sellerId}`
+      );
+      setOrders([...res.data].reverse());
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 1️⃣ Create socket ONCE
   useEffect(() => {
     const s = io("http://localhost:5000");
     setSocket(s);
-    return () => s.disconnect();
+
+    return () => {
+      s.disconnect();
+    };
   }, []);
 
-  // 2) Fetch initial orders
+  // 2️⃣ Initial fetch
   useEffect(() => {
-    if (!sellerId) return;
-
-    axios
-      .get(`http://localhost:5000/api/orders/seller/${sellerId}`)
-      .then((res) => setOrders([...res.data].reverse()))
-      .catch((err) => console.error(err));
+    fetchOrders();
   }, [sellerId]);
 
-  // 3) Live updates
+  // 3️⃣ Live updates (ONLY trigger refetch)
   useEffect(() => {
     if (!socket || !sellerId) return;
 
     socket.emit("join", `seller_${sellerId}`);
 
-    const onOrderUpdate = (data) => {
-      setOrders((prev) => {
-        const exists = prev.some(
-          (o) => o._id.toString() === data.orderId.toString()
-        );
+    socket.on("order:update", fetchOrders);
 
-        if (exists) {
-          return prev.map((order) =>
-            order._id.toString() === data.orderId.toString()
-              ? { ...order, status: data.status }
-              : order
-          );
-        }
-
-        return [
-          {
-            _id: data.orderId,
-            status: data.status,
-            user: data.userId,
-            items: [],
-          },
-          ...prev,
-        ];
-      });
+    return () => {
+      socket.off("order:update", fetchOrders);
     };
-
-    socket.on("order:update", onOrderUpdate);
-    return () => socket.off("order:update", onOrderUpdate);
   }, [socket, sellerId]);
 
-  // 4) Seller updates status
+  // 4️⃣ Update status
   const updateStatus = async (id, status) => {
     await axios.put(
       `http://localhost:5000/api/orders/update-status/${id}`,
@@ -192,8 +283,8 @@ const SellerOrders = () => {
 
       {orders.map((order) => (
         <div className="order-card" key={order._id}>
-          <h3>{order.items?.[0]?.name || "Item"}</h3>
-          <p>Buyer ID: {order.user}</p>
+          <h3>{order.items?.[0]?.name}</h3>
+          <p>Buyer ID: {order.user?._id || order.user}</p>
           <p>Status: {order.status}</p>
 
           <button onClick={() => updateStatus(order._id, "Processing")}>
@@ -212,3 +303,4 @@ const SellerOrders = () => {
 };
 
 export default SellerOrders;
+
